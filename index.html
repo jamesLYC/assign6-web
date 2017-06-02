@@ -202,11 +202,11 @@
                   if ( this.editor.activity_id === null){
                         // ASN REQ 2 : this means we are creating new activity
                         // you should use one of the functions `updateActivity or createActivity` below
-
+                        this.createActivity(this.editor.activity);
                       }else {
                         // ASN REQ 2 : this means we should UPDATE the activity whose id is `activity_id` , with this.editor.activity
                         // you should use one of the functions `updateActivity or createActivity` below
-
+                        this.updateActivity(this.editor.activity_id,this.editor.activity);
                       }
                       $("#activityEditor").modal("hide")
                     },
@@ -219,16 +219,17 @@
                 // C , R , D
                 createActivity : function ( new_activity ){
                     // ASN REQ 2 : push new_activity to activitiesRef. Always handle error!
-                    
+                    messagesRef.push(new_activity).catch(errorCallback)
 
                   },
                   updateActivity : function ( activity_id , activity ){
                     // ASN REQ 2 : update activitiesRef at `activity_id` with data `activity`. Always handle error!
-
+                    messagesRef.child(activity_id).update(activity).catch(errorCallback)
                   },
                   removeActivity : function ( activity_id ){
                     // ASN REQ 2 : remove activity at `activity_id`. Always handle error!
-
+                    messagesRef.child(activity_id).remove().catch(errorCallback)
+                    this.$delete( this.data.activities , activity_id)
                   }
                 },
 
